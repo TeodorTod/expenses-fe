@@ -16,6 +16,7 @@ export class LoginComponent {
   http = inject(HttpClient);
   router = inject(Router);
   loginForm: FormGroup;
+  loginError: boolean = false;
 
   constructor() {
     this.loginForm = this.fb.group({
@@ -30,11 +31,15 @@ export class LoginComponent {
       this.http.post('http://localhost:3000/auth/login', formData).subscribe(
         (response) => {
           console.log('Login successful:', response);
+          localStorage.setItem('username', this.loginForm.get('username')?.value)
           this.router.navigate(['/home'])
         },
         (error) => {
+          this.loginError = true;
+          setTimeout(() => {
+            this.loginError = false;
+          }, 5000)
           console.error('Login failed:', error);
-          
         }
       );
     }
