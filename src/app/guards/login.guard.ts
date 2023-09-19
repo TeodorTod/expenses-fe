@@ -15,7 +15,7 @@ export class LoginGuard implements CanActivate {
       // If there's no username in localStorage, redirect to the login component
       this.router.navigate(['/login']);
       return false; // Prevent access to the protected route
-    }
+    } 
 
     return true; // Allow access to the protected route
   }
