@@ -1,5 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  Datepicker,
+  Input,
+  initTE,
+  Dropdown,
+  Ripple,
+} from "tw-elements";
+
+
 
 @Component({
   selector: 'app-home',
@@ -8,6 +17,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  isDropdownOpen = false;
 
+  ngOnInit(): void {
+    initTE({ Datepicker, Input, Dropdown, Ripple });
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
 }
