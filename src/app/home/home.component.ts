@@ -6,6 +6,7 @@ import {
   initTE,
   Dropdown,
   Ripple,
+  Chart
 } from "tw-elements";
 
 
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   isDropdownOpen = false;
 
   ngOnInit(): void {
-    initTE({ Datepicker, Input, Dropdown, Ripple });
+    initTE({ Datepicker, Input, Dropdown, Ripple, Chart });
   }
 
   toggleDropdown() {
