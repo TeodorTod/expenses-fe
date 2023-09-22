@@ -5,7 +5,11 @@ module.exports = {
     "./node_modules/tw-elements/dist/js/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      borderColor: {
+        'custom-blue': '#3B71CA',
+      },
+    },
   },
   darkMode: "class",
   plugins: [require("tw-elements/dist/plugin.cjs")]
