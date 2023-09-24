@@ -9,6 +9,7 @@ import {
   Chart
 } from "tw-elements";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ExpensesService } from '../services/expenses.service';
 
 
 
@@ -22,6 +23,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class HomeComponent implements OnInit {
   isDropdownOpen = false;
   fb = inject(FormBuilder);
+  expensesService = inject(ExpensesService);
   expensesForm: FormGroup;
   types: any[] = ['Supermarket', 'Grocery', 'Pharmacy', 'Bills', 'Kid'];
 
@@ -42,6 +44,10 @@ export class HomeComponent implements OnInit {
   }
 
   submitExpense() {
-    console.log(this.expensesForm.value);
+    const formData = this.expensesForm.value;
+
+    this.expensesService.createExpense(formData).subscribe((res: any) => {
+      console.log('Expense saved successfully', res);
+    })
   }
 }
