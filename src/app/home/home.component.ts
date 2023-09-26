@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   Datepicker,
@@ -21,6 +21,7 @@ import { ExpensesService } from '../services/expenses.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  
   isDropdownOpen = false;
   fb = inject(FormBuilder);
   expensesService = inject(ExpensesService);
@@ -54,7 +55,7 @@ export class HomeComponent implements OnInit {
         datasets: [
           {
             label: 'Expenses',
-            data: [2112, 2343, 2545, 3423, 2365, 1985, 987, 2112, 2343, 2545, 3423, 2365, 1985, 987],
+            data: [this.expensesService.januaryExpenses, this.expensesService.februaryExpenses, this.expensesService.marchExpenses, this.expensesService.aprilExpenses, this.expensesService.mayExpenses, this.expensesService.juneExpenses, this.expensesService.julyExpenses, this.expensesService.augustExpenses, this.expensesService.septemberExpenses, this.expensesService.octoberExpenses, this.expensesService.novemberExpenses, this.expensesService.decemberExpenses],
           },
         ],
       },
