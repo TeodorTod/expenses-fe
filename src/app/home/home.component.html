@@ -1,26 +1,63 @@
+
 <div class="flex justify-around pt-24">
     <div
         class="w-1/2 block max-w-sm rounded-lg content-center bg-white p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 px-10">
+        <div *ngIf="isSent"
+            class="pointer-events-auto mx-auto mb-4 hidden w-96 max-w-full rounded-lg bg-primary-100 bg-clip-padding text-sm text-primary-700 shadow-lg shadow-black/5 data-[te-toast-show]:block data-[te-toast-hide]:hidden"
+            id="static-example" role="alert" aria-live="assertive" aria-atomic="true" data-te-autohide="false"
+            data-te-toast-init data-te-toast-show>
+            <div
+                class="flex items-center justify-between rounded-t-lg border-b-2 border-primary-200 bg-primary-100 bg-clip-padding px-4 pb-2 pt-2.5 text-primary-700">
+                <p class="flex items-center font-bold text-primary-700">
+                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="info-circle"
+                        class="mr-2 h-4 w-4 fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512">
+                        <path fill="currentColor"
+                            d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z">
+                        </path>
+                    </svg>
+                    Submitted
+                </p>
+                <div class="flex items-center">
+                    <p class="text-xs text-primary-700">11 mins ago</p>
+                    <button type="button"
+                        class="ml-2 box-content rounded-none border-none opacity-80 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                        data-te-toast-dismiss aria-label="Close">
+                        <span
+                            class="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="h-6 w-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <div class="break-words rounded-b-lg bg-primary-100 px-4 py-4 text-primary-700">
+                The expense is sumbitted successfully!
+            </div>
+        </div>
         <form [formGroup]="expensesForm" (ngSubmit)="submitExpense()">
             <div class="flex items-center gap-3 my-8">
-            <!--Sum input-->
-            <div class="relative" data-te-input-wrapper-init>
-                <input type="number" formControlName="sum"
-                    class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                    id="exampleInputEmail2" aria-describedby="emailHelp" placeholder="Enter email" />
-                <label for="exampleInputEmail2"
-                    class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">Sum</label>
+                <!--Sum input-->
+                <div class="relative" data-te-input-wrapper-init>
+                    <input type="number" formControlName="sum"
+                        class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                        id="exampleInputEmail2" aria-describedby="emailHelp" placeholder="Enter email" />
+                    <label for="exampleInputEmail2"
+                        class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary">Sum</label>
+                </div>
+                <!--dropdown-->
+                <div class="border border-custom-blue rounded-full" data-te-dropdown-ref>
+                    <select formControlName="type"
+                        class="block w-full border-0 bg-transparent px-3 py-2 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0 border-custom-blue rounded-full">
+                        <option value="">Type</option>
+                        <ng-container *ngFor="let item of types">
+                            <option [value]="item">{{ item }}</option>
+                        </ng-container>
+                    </select>
+                </div>
             </div>
-            <!--dropdown-->
-            <div class="border border-custom-blue rounded-full" data-te-dropdown-ref>
-                <select formControlName="type" class="block w-full border-0 bg-transparent px-3 py-2 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0 border-custom-blue rounded-full">
-                  <option value="">Type</option>
-                  <ng-container *ngFor="let item of types">
-                    <option [value]="item">{{ item }}</option>
-                  </ng-container>
-                </select>
-              </div>
-        </div>
             <!--datepicker-->
             <div class="relative my-5" data-te-datepicker-init data-te-input-wrapper-init>
                 <input type="text" formControlName="date"
@@ -38,33 +75,12 @@
                 Submit expense
             </button>
         </form>
-        <div *ngIf="isSent" role="alert" class="fixed left-24 top-14 w-200 z-50">
-            <div class="rounded-xl border border-gray-100 bg-white p-4">
-                <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4">
-                    <div class="flex items-center gap-2 text-red-800">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            class="h-5 w-5"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                                clip-rule="evenodd"
-                            ></path>
-                        </svg>
-    
-                        <strong class="block font-medium"> Expense send successfully! </strong>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="mx-auto w-3/5 overflow-hidden">
 
         </div>
     </div>
     <div class="w-1/2 px-10">
         <canvas id="bar-chart"></canvas>
-      </div>
+    </div>
+    
 </div>

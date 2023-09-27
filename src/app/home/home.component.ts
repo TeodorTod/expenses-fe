@@ -6,7 +6,8 @@ import {
   initTE,
   Dropdown,
   Ripple,
-  Chart
+  Chart,
+  Toast
 } from "tw-elements";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ExpensesService } from '../services/expenses.service';
@@ -20,20 +21,17 @@ import { ExpensesService } from '../services/expenses.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
-  
-  isDropdownOpen = false;
-  fb = inject(FormBuilder);
-  expensesService = inject(ExpensesService);
+export class HomeComponent implements OnInit, AfterViewInit {
   expensesForm: FormGroup;
-  types: any[] = ['Supermarket', 'Grocery', 'Pharmacy', 'Bills', 'Kid'];
   isSent: boolean = false;
+  chartData: number[] = new Array(12).fill(0);
+  types: string[] = ['Supermarket', 'Grocery', 'Pharmacy', 'Bills', 'Kid'];
 
-  
 
-  
-
-  constructor() {
+  constructor(
+    private fb: FormBuilder,
+    private expensesService: ExpensesService
+  ) {
     this.expensesForm = this.fb.group({
       sum: ['', Validators.required],
       type: ['', Validators.required],
@@ -42,12 +40,25 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    initTE({ Datepicker, Input, Dropdown, Ripple, Chart });
+    
 
-    
-    initTE({ Chart });
-    
-    // Chart
+    this.expensesService.getExpenses().subscribe((expenses: any[]) => {
+      // Calculate monthly expenses
+      expenses.forEach((el: any) => {
+        const month = parseInt((el.date).split('/')[1]);
+        this.chartData[month - 1] += el.sum;
+      });
+
+      // Update the chart with the calculated data
+      this.updateChart();
+    });
+  }
+
+  ngAfterViewInit(): void {
+    initTE({ Datepicker, Input, Toast }); 
+  }
+
+  updateChart(): void {
     const dataBar = {
       type: 'bar',
       data: {
@@ -55,31 +66,36 @@ export class HomeComponent implements OnInit {
         datasets: [
           {
             label: 'Expenses',
-            data: [this.expensesService.januaryExpenses, this.expensesService.februaryExpenses, this.expensesService.marchExpenses, this.expensesService.aprilExpenses, this.expensesService.mayExpenses, this.expensesService.juneExpenses, this.expensesService.julyExpenses, this.expensesService.augustExpenses, this.expensesService.septemberExpenses, this.expensesService.octoberExpenses, this.expensesService.novemberExpenses, this.expensesService.decemberExpenses],
+            data: this.chartData,
           },
         ],
       },
     };
-    
-    new Chart(document.getElementById('bar-chart'), dataBar);
-  }
 
-  toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
+    const chartElement = document.getElementById('bar-chart');
+    if (chartElement) {
+      new Chart(chartElement, dataBar);
+    }
   }
 
   submitExpense() {
     const formData = this.expensesForm.value;
-
+  
     this.expensesService.createExpense(formData).subscribe((res: any) => {
       console.log('Expense saved successfully', res);
-    })
-
+      
+      // Update the chart directly with the new expense data
+      const month = new Date(formData.date).getMonth();
+      this.chartData[month] += formData.sum;
+      this.updateChart();
+    });
+  
     this.expensesForm.reset();
-
     this.isSent = true;
+  
     setTimeout(() => {
       this.isSent = false;
-    }, 5000)
+    }, 5000);
   }
+  
 }
